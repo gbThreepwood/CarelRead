@@ -1,6 +1,7 @@
 # CarelRead
 Tool to communicate with the RS485 bus of the Carel IR32 series refrigeration controllers.
 
+The manual states that the controller network address is a number between 0 and 15, i.e. a maximum of 16 unitis may be connected.
 
 I have not been able to obtain any documentation for the proprietary communication protocol.
 
@@ -42,7 +43,7 @@ controller, e.g.:
 
 0x02 corresponds to ASCII `Start of text`
 
-The next two bytes are always 0x52 and 0x45, corresponding to ASCII R and E.
+The next two bytes are always 0x52 and 0x45, corresponding to ASCII R and E. (READ?)
 
 The following two bytes are always 0x30, corresponding to ASCII 0(zero).
 
@@ -64,6 +65,18 @@ The last two bytes are varying. Is this some kind of checksum?
 From Wikipedia: A widely used convention is to make the two characters preceding ETX a checksum
 or CRC for error-detection purposes
 
+
+## Additional data
+
+If the temperature sensor is disconnected, the controller displays a error message. The following is the response to a read request while the sensor is disconnected:
+
+02:31:52:45:46:44:39:45:46:44:39:43:30:30:32:35:30:41:31:30:03:37:34
+
+Byte number 5 and 6 has changed from 0x00 to 0x46 and 0x44, corresponding to ASCII: FD. (Failed device?)
+
+Byte 7 and 8 decodes to a temperature of 15.8 degrees celcius.
+
+Byte 9 and 10 decodes to FD (Failed device for secondary sensor?)
 
 TODO:
 - Tamper with the temperature, and see how the controller behaves
