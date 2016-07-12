@@ -40,7 +40,7 @@ The response always starts with 0x02 followed by the assumed adress of the
 controller, e.g.:
 0x02 0x31 ...
 
-0x02 corresponds to ASCII <Start of text>
+0x02 corresponds to ASCII `Start of text`
 
 The next two bytes are always 0x52 and 0x45, corresponding to ASCII R and E.
 
@@ -58,7 +58,7 @@ The next two bytes have some small variations between the different controllers.
 The following eight bytes are always:
 0x039 0x39 0x39 0x35 0x30 0x32 0x30 0x30 Corresponding to ASCII: 99950200 
 
-These are followed by 0x03, ASCII: <End of text> 
+These are followed by 0x03, ASCII: `End of text` 
 
 The last two bytes are varying. Is this some kind of checksum?
 From Wikipedia: A widely used convention is to make the two characters preceding ETX a checksum
@@ -73,6 +73,6 @@ TODO:
 Command
 
 Start byte
-0x02 - ASCII <Start of text>
-0x06 - ASCII: <Acknowledge>
-0x05 - Used in normal operation. ASCII: <Enquiry>
+0x02 - ASCII `Start of text`
+0x06 - ASCII: `Acknowledge`
+0x05 - Used in normal operation. ASCII: `Enquiry`
