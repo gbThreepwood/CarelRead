@@ -73,6 +73,6 @@ TODO:
 Command
 
 Start byte
-0x02 - ASCII `Start of text`
-0x06 - ASCII: `Acknowledge`
-0x05 - Used in normal operation. ASCII: `Enquiry`
+- 0x02 - ASCII `Start of text`
+- 0x06 - ASCII: `Acknowledge`
+- 0x05 - Used in normal operation. ASCII: `Enquiry`
