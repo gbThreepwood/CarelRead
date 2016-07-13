@@ -78,6 +78,87 @@ Byte 7 and 8 decodes to a temperature of 15.8 degrees celcius.
 
 Byte 9 and 10 decodes to FD (Failed device for secondary sensor?)
 
+
+### Initialization
+The following commands are executed during the initialization of the control software.
+
+#### Enquire
+Command
+02 31 3f 03 37 35
+.1?.75          
+
+Response
+02 31 56 35 03 3c 31
+.1V5.<1         
+
+The byte 0x3f corresponds to ASCII: ?(question mark). This command is likely used to enquire all the controlers. The command is repeated several times when the controller is missing.
+
+The response may be the version of the installed firmware. Version 5 in this case?
+
+#### Unknown
+Command
+02 31 54 44 45 03 31 33
+.1TDE.13 
+
+Response
+02 31 52 44 31 41 41 39 31 35 30 32 30 34 30 30 33 31 46 32 03 32 30
+.1RD1AA91502040031F2.20
+
+	
+Second example
+02 33 54 44 45 03 31 35
+.3TDE.15
+
+02 33 52 44 31 43 36 36 31 36 34 41 30 34 30 30 33 31 43 32 03 32 37
+.3RD1C66164A040031C2.27         
+
+
+This command is only executed if the previous command has retured some valid data.
+
+The response has a length of 23 bytes.
+
+#### Unknown 2
+
+First example:
+02 31 52 45 49 03 31 36                           
+.1REI.16
+
+Response:
+02 31 52 45 30 30 39 45 46 44 39 34 39 39 39 35 30 32 30 30 03 34 34
+.1RE009EFD9499950200.44
+
+Second example:
+
+02 33 52 45 49 03 31 38
+.3REI.18        
+
+Response:
+02 33 52 45 30 30 41 30 46 44 38 39 39 39 39 35 30 32 30 30 03 33 3d
+.3RE00A0FD8999950200.3=
+
+I suppose the command is "REI", but the meaning is still obscure to me.
+
+The response has a length of 23 bytes.
+
+
+#### Unknown 3
+
+02 31 52 49 4a 03 31 3b
+.1RIJ.1;
+
+02 31 52 49 30 30 31 45 30 30 31 45 30 30 30 35 30 30 31 34 03 30 37
+.1RI001E001E00050014.07         
+
+
+02 33 52 49 4a 03 31 3d
+.3RIJ.1=
+
+02 33 52 49 30 30 31 45 30 30 31 45 30 30 30 35 30 30 31 34 03 30 39
+.3RI001E001E00050014.09
+
+
+
+
 TODO:
 - Tamper with the temperature, and see how the controller behaves
 - Connect secondary sensor and see if it is possible to obtain a reading
