@@ -27,6 +27,8 @@ parser.add_argument('-a', '--address', help='Address of the Carel IR32 controlle
 
 parser.add_argument('-p','--port', help='Serial port interface to use, e.g. /dev/ttyUSB0')
 
+parser.add_argument('-d','--device', help='Device to read (IR32 or IR33)')
+
 args = parser.parse_args()
 
 
@@ -81,7 +83,12 @@ def read_temperature(address, ser):
 		logging.info(":".join("{:02x}".format(ord(c)) for c in return_msg))
 
 		# Extract the temperature of sensor 1 from the return message.
-		temp = int(return_msg[6:8],16)
+		if args.device == 'IR33':	
+			temp = int(return_msg[7:9],16)
+		else:
+			temp = int(return_msg[6:8],16)
+		
+
 		temp = temp/10.0
 		logging.info('Temperatur: ' + str(temp))
 		print(str(temp))
