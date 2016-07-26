@@ -21,13 +21,12 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 parser = argparse.ArgumentParser(description='Request sensor status from Carel IR32 controller, and decode the returned message.')
+
 parser.add_argument('-b','--baudrate', type=int, help='Communication baudrate for the serial connection (default 19200).')
-
 parser.add_argument('-a', '--address', help='Address of the Carel IR32 controller', type=int, choices=range(0,16))
-
 parser.add_argument('-p','--port', help='Serial port interface to use, e.g. /dev/ttyUSB0')
-
 parser.add_argument('-d','--device', help='Device to read (IR32 or IR33)')
+parser.add_argument('-q','--query', help='Ask the device for firmware version.')
 
 args = parser.parse_args()
 
@@ -51,20 +50,40 @@ def main():
 		ser.xonxoff = False     #disable software flow control
 		ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 		ser.dsrdtr = False       #disable hardware (DSR/DTR) flow control
-		ser.writeTimeout = 2     #timeout for write
+		ser.writeTimeout = 0.1     #timeout for write
 		
 		ser.baudrate = args.baudrate
 
 		logging.info(ser.name)
 		logging.info('Nyttar hastigheita: ' + str(ser.baudrate))
-		
-		read_temperature(args.address, ser)
+	
+
+		if args.query == '1':
+			enquire_firmware(args.address, ser)	
+		else:	
+			read_temperature(args.address, ser)
 		
 		ser.close()
 	except:
 		logging.error('Undefined error.')
 	
+
+def compute_crc(command):
+	crc = '\x37\x35'
+	return crc
 	
+def enquire_firmware(address, ser):
+	command = '\x02' + str(args.address) + '\x3f\x03'	
+	crc = compute_crc(command) 
+	
+	logging.info('Firmware version query')
+	ser.write(command  + crc)
+	response = ser.readline()
+	if not response:
+		print('Communication failure')
+	else:	
+		print('Communication OK. FW: ' + response[1:3])
+
 
 def read_temperature(address, ser):
 	logging.info('Adresse: ' + str(address))
@@ -77,7 +96,8 @@ def read_temperature(address, ser):
 	logging.info('Reasing return message')
 	return_msg = ser.readline()
 	if not return_msg:
-		logging.warning('Communication error, did not receive any data.')
+		print(-1)
+		#logging.warning('Communication error, did not receive any data.')
 	else:
 		logging.info(return_msg)
 		logging.info(":".join("{:02x}".format(ord(c)) for c in return_msg))
