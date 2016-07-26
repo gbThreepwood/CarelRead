@@ -1,9 +1,11 @@
 # CarelRead
-Tool to communicate with the RS485 bus of the Carel IR32 series refrigeration controllers. The controller has been superseded by the IR33 series, which support modbus. I.e. this software is likely only relevant in old installations.
+Tool to communicate with the RS485 bus of the Carel IR32 series refrigeration controllers. The controller has been superseded by the IR33 series, which support modbus. I.e. this software is likely only relevant in old installations. The IR33 controllers seems to support both protocols, however.
 
-The manual states that the controller network address is a number between 0 and 15, i.e. a maximum of 16 unitis may be connected.
+The documentation is very limited. The user manual of the IR33 controllers mentions a protocol known as CAREL SPV, this may be the name of the protocol discussed here.
 
-I have not been able to obtain any documentation for the proprietary communication protocol.
+The IR32 manual states that the controller network address is a number between 0 and 15, i.e. a maximum of 16 unitis may be connected.
+
+I have not been able to obtain any documentation for the data format of the proprietary communication protocol.
 
 # Reverse engineering
 
